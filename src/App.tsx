@@ -11,6 +11,7 @@ import EmailVerification from './components/auth/EmailVerification';
 import AccountDeleted from './components/AccountDeleted';
 import Plans from './components/Plans';
 import UserManagement from './components/UserProfile/UserManagement';
+import TreatmentResult from './components/TreatmentResult';
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -58,6 +59,9 @@ function App() {
         <Route path="/profile" element={user?.emailVerified ? <UserManagement /> : <Navigate to="/verify-email" replace />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/account-deleted" element={<AccountDeleted />} />
+        <Route path="/treatment-result" element={
+          user?.emailVerified ? <TreatmentResult /> : <Navigate to="/verify-email" replace />
+        } />
         <Route path="/" element={
           user ? (
             user.emailVerified ? (

@@ -13,6 +13,7 @@ export interface UserType {
   name: string;
   email: string;
   cpf: string;
+  crm: string;
   company: string;
   phone: string;
   plan?: string;

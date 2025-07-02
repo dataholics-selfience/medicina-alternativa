@@ -30,6 +30,7 @@ const UserManagement = () => {
   const [formData, setFormData] = useState({
     name: '',
     cpf: '',
+    crm: '',
     company: '',
     email: '',
     phone: '',
@@ -61,6 +62,7 @@ const UserManagement = () => {
         setFormData({
           name: data.name || '',
           cpf: data.cpf || '',
+          crm: data.crm || '',
           company: data.company || '',
           email: data.email || '',
           phone: data.phone || '',
@@ -257,7 +259,7 @@ const UserManagement = () => {
           to="/plans"
           className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
         >
-          {userData?.plan || 'Padawan'} →
+          {userData?.plan || 'Terapeuta Iniciante'} →
         </Link>
       </div>
 
@@ -290,6 +292,14 @@ const UserManagement = () => {
             disabled
             className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-white opacity-50"
             placeholder={t.cpf}
+          />
+          <input
+            type="text"
+            name="crm"
+            value={formData.crm}
+            disabled
+            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-white opacity-50"
+            placeholder="CRM"
           />
           <input
             type="text"

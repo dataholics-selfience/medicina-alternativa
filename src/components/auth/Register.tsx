@@ -9,6 +9,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
     cpf: '',
+    crm: '',
     company: '',
     email: '',
     phone: '',
@@ -29,10 +30,22 @@ const Register = () => {
     return !querySnapshot.empty;
   };
 
+  const validateCRM = (crm: string) => {
+    // Remove caracteres não numéricos
+    const cleanCRM = crm.replace(/\D/g, '');
+    // CRM deve ter entre 4 e 6 dígitos
+    return cleanCRM.length >= 4 && cleanCRM.length <= 6;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.terms) {
       setError('Você precisa aceitar os termos de uso para continuar.');
+      return;
+    }
+
+    if (!validateCRM(formData.crm)) {
+      setError('CRM deve conter entre 4 e 6 dígitos.');
       return;
     }
     
@@ -62,6 +75,7 @@ const Register = () => {
         uid: user.uid,
         name: formData.name.trim(),
         cpf: formData.cpf.trim(),
+        crm: formData.crm.trim(),
         company: formData.company.trim(),
         email: formData.email.trim().toLowerCase(),
         phone: formData.phone.trim(),
@@ -161,6 +175,16 @@ const Register = () => {
             />
             <input
               type="text"
+              name="crm"
+              required
+              value={formData.crm}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="CRM (apenas números)"
+              maxLength={6}
+            />
+            <input
+              type="text"
               name="company"
               required
               value={formData.company}
@@ -211,17 +235,15 @@ const Register = () => {
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading || !formData.terms}
-              className={`w-full py-3 px-4 bg-green-600 hover:bg-green-700 rounded-lg text-white text-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors ${
-                isLoading || !formData.terms ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {isLoading ? 'Criando conta...' : 'Criar conta'}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={isLoading || !formData.terms}
+            className={`w-full py-3 px-4 bg-green-600 hover:bg-green-700 rounded-lg text-white text-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors ${
+              isLoading || !formData.terms ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            {isLoading ? 'Criando conta...' : 'Criar conta'}
+          </button>
 
           <div className="text-center">
             <Link to="/login" className="text-lg text-green-600 hover:text-green-700 font-medium">
