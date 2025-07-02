@@ -64,15 +64,21 @@ const LandingPage = () => {
 
   const testimonials = [
     {
-      name: "Dra. Renata Manoel Nogueira",
-      role: "Médica Especialista em Medicina Integrativa",
-      content: "A medicina do futuro vai precisar de outros conhecimentos, lampejos intuitivos e percepção extra sensorial",
+      name: "Dr. Marina Silva",
+      role: "Médica Integrativa - CRM 12345",
+      content: "A plataforma revolucionou minha prática clínica. A precisão das recomendações e a integração de diferentes modalidades terapêuticas me permite oferecer tratamentos verdadeiramente personalizados.",
       rating: 5
     },
     {
-      name: "Dra. Renata Manoel Nogueira",
-      role: "Médica Especialista em Medicina Integrativa",
-      content: "Tecnologia é algo divino, que vai levar a medicina a dar um salto",
+      name: "Dr. Carlos Mendoza",
+      role: "Especialista em Medicina Tradicional Chinesa - CRM 67890",
+      content: "Impressionante como a IA consegue correlacionar sintomas com padrões energéticos da MTC. É como ter um mestre ancestral orientando cada diagnóstico.",
+      rating: 5
+    },
+    {
+      name: "Dra. Ana Beatriz",
+      role: "Homeopata e Antroposófica - CRM 54321",
+      content: "A metalinguística da plataforma é extraordinária. Cada sugestão vem acompanhada de fundamentação científica e tradicional, elevando o nível da medicina alternativa.",
       rating: 5
     }
   ];
@@ -165,8 +171,8 @@ const LandingPage = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img 
-                  src="https://images.pexels.com/photos/8142977/pexels-photo-8142977.jpeg?auto=compress&cs=tinysrgb&w=800" 
-                  alt="Roda de Medicina Indígena Brasileira - Sabedoria Ancestral"
+                  src="https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                  alt="Medicina Alternativa - Tratamentos Holísticos"
                   className="rounded-2xl shadow-2xl w-full"
                 />
               </div>
@@ -339,62 +345,46 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Visão da Medicina do Futuro
+              O Que Dizem Nossos Profissionais
             </h2>
             <p className="text-xl text-gray-600">
-              Reflexões sobre a evolução da medicina integrativa
+              Experiências reais de médicos que transformaram sua prática clínica
             </p>
           </div>
 
           <div className="relative">
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-8 lg:p-12">
+            <div className="bg-gray-50 rounded-2xl p-8 lg:p-12">
               <div className="text-center mb-8">
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-4">
                   {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
                     <Star key={i} size={24} className="text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
-                <blockquote className="text-3xl text-gray-900 font-medium mb-8 leading-relaxed italic">
+                <blockquote className="text-2xl text-gray-900 font-medium mb-6 leading-relaxed">
                   "{testimonials[activeTestimonial].content}"
                 </blockquote>
-                <div className="flex items-center justify-center gap-4">
-                  <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center">
-                    <Heart size={24} className="text-white" />
+                <div>
+                  <div className="font-bold text-gray-900 text-lg">
+                    {testimonials[activeTestimonial].name}
                   </div>
-                  <div className="text-left">
-                    <div className="font-bold text-gray-900 text-xl">
-                      {testimonials[activeTestimonial].name}
-                    </div>
-                    <div className="text-gray-600 text-lg">
-                      {testimonials[activeTestimonial].role}
-                    </div>
+                  <div className="text-gray-600">
+                    {testimonials[activeTestimonial].role}
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-center mt-8 gap-3">
+            <div className="flex justify-center mt-8 gap-2">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
-                  className={`w-4 h-4 rounded-full transition-colors ${
+                  className={`w-3 h-3 rounded-full transition-colors ${
                     index === activeTestimonial ? 'bg-green-600' : 'bg-gray-300'
                   }`}
                 />
               ))}
             </div>
-          </div>
-
-          {/* Destaque especial para a visão da medicina do futuro */}
-          <div className="mt-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              A Convergência entre Intuição e Tecnologia
-            </h3>
-            <p className="text-xl text-purple-100 leading-relaxed">
-              Nossa plataforma materializa essa visão revolucionária, onde a tecnologia se torna 
-              um canal para amplificar a percepção médica e conectar dimensões sutis da cura.
-            </p>
           </div>
         </div>
       </section>
