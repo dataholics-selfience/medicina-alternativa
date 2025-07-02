@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
-import { Heart } from 'lucide-react';
+import { Heart, ArrowLeft } from 'lucide-react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -144,6 +144,17 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
+        {/* Back to Landing Page */}
+        <div className="flex items-center justify-between">
+          <Link 
+            to="/" 
+            className="flex items-center text-gray-600 hover:text-green-600 transition-colors"
+          >
+            <ArrowLeft size={20} className="mr-2" />
+            Voltar ao início
+          </Link>
+        </div>
+
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Heart size={48} className="text-green-600" />

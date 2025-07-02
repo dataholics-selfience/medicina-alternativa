@@ -12,6 +12,7 @@ import AccountDeleted from './components/AccountDeleted';
 import Plans from './components/Plans';
 import UserManagement from './components/UserProfile/UserManagement';
 import TreatmentResult from './components/TreatmentResult';
+import LandingPage from './components/LandingPage';
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -52,17 +53,21 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
-        <Route path="/register" element={!user ? <Register /> : <Navigate to="/" replace />} />
-        <Route path="/forgot-password" element={!user ? <ForgotPassword /> : <Navigate to="/" replace />} />
-        <Route path="/verify-email" element={<EmailVerification />} />
-        <Route path="/profile" element={user?.emailVerified ? <UserManagement /> : <Navigate to="/verify-email" replace />} />
+        {/* Public Routes */}
+        <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/app" replace />} />
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/app" replace />} />
+        <Route path="/register" element={!user ? <Register /> : <Navigate to="/app" replace />} />
+        <Route path="/forgot-password" element={!user ? <ForgotPassword /> : <Navigate to="/app" replace />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/account-deleted" element={<AccountDeleted />} />
+        
+        {/* Protected Routes */}
+        <Route path="/verify-email" element={<EmailVerification />} />
+        <Route path="/profile" element={user?.emailVerified ? <UserManagement /> : <Navigate to="/verify-email" replace />} />
         <Route path="/treatment-result" element={
           user?.emailVerified ? <TreatmentResult /> : <Navigate to="/verify-email" replace />
         } />
-        <Route path="/" element={
+        <Route path="/app" element={
           user ? (
             user.emailVerified ? (
               <Layout />
