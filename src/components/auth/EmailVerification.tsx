@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { onAuthStateChanged, sendEmailVerification, signOut } from 'firebase/auth';
-import { doc, setDoc, collection } from 'firebase/firestore';
+import { doc, setDoc, collection, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 import { Heart } from 'lucide-react';
 
@@ -59,13 +59,211 @@ const EmailVerification = () => {
     return () => clearInterval(timer);
   }, [countdown]);
 
+  const sendWhatsAppVerification = async (user: any, verificationLink: string) => {
+    try {
+      // Buscar dados do usuário para obter o telefone
+      const userDoc = doc(db, 'users', user.uid);
+      const userData = await getDoc(userDoc);
+      
+      if (!userData.exists()) {
+        console.error('Dados do usuário não encontrados');
+        return;
+      }
+
+      const phone = userData.data().phone;
+      const name = userData.data().name;
+      
+      if (!phone) {
+        console.error('Telefone não encontrado nos dados do usuário');
+        return;
+      }
+
+      const formatPhoneForWhatsApp = (phone: string): string => {
+        const cleanPhone = phone.replace(/\D/g, '');
+        
+        if (cleanPhone.startsWith('55')) {
+          return cleanPhone;
+        }
+        
+        if (cleanPhone.length === 11) {
+          return '55' + cleanPhone;
+        }
+        
+        if (cleanPhone.length === 10) {
+          return '55' + cleanPhone;
+        }
+        
+        if (cleanPhone.length === 9) {
+          return '5511' + cleanPhone;
+        }
+        
+        if (cleanPhone.length === 8) {
+          return '5511' + cleanPhone;
+        }
+        
+        return cleanPhone;
+      };
+
+      const formattedPhone = formatPhoneForWhatsApp(phone);
+      const firstName = name.split(' ')[0];
+      
+      const whatsappMessage = `Olá, ${firstName}! 🌿
+
+Reenvio do link de ativação da sua conta na Medicina Integrativa:
+
+${verificationLink}
+
+Clique no link acima para ativar sua conta e começar a usar nossa plataforma de medicina integrativa.
+
+Medicina Integrativa - Cura através da sabedoria ancestral`;
+
+      const evolutionPayload = {
+        number: formattedPhone,
+        text: whatsappMessage
+      };
+
+      const response = await fetch('https://evolution-api-production-f719.up.railway.app/message/sendText/215D70C6CC83-4EE4-B55A-DE7D4146CBF1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': '215D70C6CC83-4EE4-B55A-DE7D4146CBF1'
+        },
+        body: JSON.stringify(evolutionPayload)
+      });
+
+      if (response.ok) {
+        console.log('WhatsApp reenviado com sucesso');
+        
+        await setDoc(doc(collection(db, 'whatsappLogs'), crypto.randomUUID()), {
+          userId: user.uid,
+          userEmail: user.email,
+          phone: formattedPhone,
+          messageType: 'email_verification_resend',
+          sentAt: new Date().toISOString(),
+          status: 'sent'
+        });
+      } else {
+        const errorText = await response.text();
+        console.error('Erro ao reenviar WhatsApp:', errorText);
+      }
+    } catch (error) {
+      console.error('Erro ao reenviar WhatsApp:', error);
+    }
+  };
+
   const handleResendEmail = async () => {
     if (resendDisabled) return;
 
     try {
       if (auth.currentUser) {
-        await sendEmailVerification(auth.currentUser);
-        setError('Email de verificação reenviado. Por favor, verifique sua caixa de entrada.');
+        // Define known production domains
+        const productionDomains = [
+          'medicina-alternativa-ac0d5.firebaseapp.com',
+          'genoi.net'
+        ];
+        
+        const currentHostname = window.location.hostname;
+        const isProductionDomain = productionDomains.includes(currentHostname);
+
+        // Only use actionCodeSettings for verified production domains
+        if (isProductionDomain) {
+          const actionCodeSettings = {
+            url: `${window.location.origin}/verify-email`,
+            handleCodeInApp: true,
+            iOS: {
+              bundleId: 'com.medicina.integrativa'
+            },
+            android: {
+              packageName: 'com.medicina.integrativa',
+              installApp: true,
+              minimumVersion: '12'
+            },
+            dynamicLinkDomain: 'medicina-integrativa.page.link'
+          };
+
+          await sendEmailVerification(auth.currentUser, actionCodeSettings);
+        } else {
+          // For development and other domains, use simple verification without actionCodeSettings
+          await sendEmailVerification(auth.currentUser);
+        }
+
+        // Send WhatsApp notification
+        try {
+          const userDoc = doc(db, 'users', auth.currentUser.uid);
+          const userData = await getDoc(userDoc);
+          
+          if (userData.exists()) {
+            const phone = userData.data().phone;
+            const name = userData.data().name;
+            
+            if (phone) {
+              const formatPhoneForWhatsApp = (phone: string): string => {
+                const cleanPhone = phone.replace(/\D/g, '');
+                
+                if (cleanPhone.startsWith('55')) {
+                  return cleanPhone;
+                }
+                
+                if (cleanPhone.length === 11) {
+                  return '55' + cleanPhone;
+                }
+                
+                if (cleanPhone.length === 10) {
+                  return '55' + cleanPhone;
+                }
+                
+                if (cleanPhone.length === 9) {
+                  return '5511' + cleanPhone;
+                }
+                
+                if (cleanPhone.length === 8) {
+                  return '5511' + cleanPhone;
+                }
+                
+                return cleanPhone;
+              };
+
+              const formattedPhone = formatPhoneForWhatsApp(phone);
+              const firstName = name.split(' ')[0];
+              
+              const whatsappMessage = `Olá, ${firstName}! 🌿
+
+Reenviamos o email de verificação para ativar sua conta na Medicina Integrativa.
+
+Por favor, verifique seu email (incluindo a caixa de spam) e clique no link de ativação.
+
+Medicina Integrativa - Cura através da sabedoria ancestral`;
+
+              const evolutionPayload = {
+                number: formattedPhone,
+                text: whatsappMessage
+              };
+
+              await fetch('https://evolution-api-production-f719.up.railway.app/message/sendText/215D70C6CC83-4EE4-B55A-DE7D4146CBF1', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'apikey': '215D70C6CC83-4EE4-B55A-DE7D4146CBF1'
+                },
+                body: JSON.stringify(evolutionPayload)
+              });
+
+              await setDoc(doc(collection(db, 'whatsappLogs'), crypto.randomUUID()), {
+                userId: auth.currentUser.uid,
+                userEmail: auth.currentUser.email,
+                phone: formattedPhone,
+                messageType: 'email_verification_resend',
+                sentAt: new Date().toISOString(),
+                status: 'sent'
+              });
+            }
+          }
+        } catch (whatsappError) {
+          console.error('Error sending WhatsApp notification:', whatsappError);
+          // Don't fail the entire operation if WhatsApp fails
+        }
+
+        setError('Email de verificação reenviado. Verifique também seu WhatsApp!');
         setResendDisabled(true);
         setCountdown(300);
       }
@@ -107,12 +305,16 @@ const EmailVerification = () => {
           <h2 className="text-2xl font-bold text-gray-900">Verifique seu email</h2>
           <p className="mt-2 text-gray-600">
             Por favor, verifique seu email para ativar sua conta. 
-            Você receberá um link de verificação em breve.
+            Você também recebeu uma notificação no WhatsApp.
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200">
+          <div className={`p-4 rounded-md border ${
+            error.includes('reenviado') || error.includes('WhatsApp')
+              ? 'bg-green-50 text-green-600 border-green-200'
+              : 'bg-red-50 text-red-600 border-red-200'
+          }`}>
             {error}
           </div>
         )}
@@ -137,6 +339,12 @@ const EmailVerification = () => {
               }
             </button>
           </div>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p className="text-blue-700 text-sm">
+            💡 <strong>Dica:</strong> Verifique também seu WhatsApp! Enviamos uma notificação por lá também.
+          </p>
         </div>
       </div>
     </div>

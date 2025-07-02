@@ -42,6 +42,120 @@ const Register = () => {
     return cleanCRM.length >= 4 && cleanCRM.length <= 6;
   };
 
+  const formatPhoneForWhatsApp = (phone: string): string => {
+    // Remove todos os caracteres não numéricos
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    // Se já começa com 55, retorna como está
+    if (cleanPhone.startsWith('55')) {
+      return cleanPhone;
+    }
+    
+    // Se tem 11 dígitos (celular com DDD), adiciona 55
+    if (cleanPhone.length === 11) {
+      return '55' + cleanPhone;
+    }
+    
+    // Se tem 10 dígitos (telefone fixo com DDD), adiciona 55
+    if (cleanPhone.length === 10) {
+      return '55' + cleanPhone;
+    }
+    
+    // Se tem 9 dígitos (celular sem DDD), assume DDD 11 (São Paulo)
+    if (cleanPhone.length === 9) {
+      return '5511' + cleanPhone;
+    }
+    
+    // Se tem 8 dígitos (fixo sem DDD), assume DDD 11 (São Paulo)
+    if (cleanPhone.length === 8) {
+      return '5511' + cleanPhone;
+    }
+    
+    // Para outros casos, retorna o número limpo
+    return cleanPhone;
+  };
+
+  const sendWhatsAppVerification = async (user: any, verificationLink: string) => {
+    try {
+      const formattedPhone = formatPhoneForWhatsApp(formData.phone);
+      const firstName = formData.name.split(' ')[0];
+      
+      const whatsappMessage = `Olá, ${firstName}! 🌿
+
+Bem-vindo(a) à plataforma de Medicina Integrativa!
+
+Para ativar sua conta, clique no link abaixo:
+${verificationLink}
+
+Após a ativação, você terá acesso a:
+✨ Consultas de medicina integrativa
+🌱 Tratamentos holísticos personalizados
+💚 Planos de cura natural
+
+Qualquer dúvida, estamos aqui para ajudar!
+
+Medicina Integrativa - Cura através da sabedoria ancestral`;
+
+      const evolutionPayload = {
+        number: formattedPhone,
+        text: whatsappMessage
+      };
+
+      console.log('Enviando WhatsApp para:', formattedPhone);
+      console.log('Payload:', evolutionPayload);
+
+      const response = await fetch('https://evolution-api-production-f719.up.railway.app/message/sendText/215D70C6CC83-4EE4-B55A-DE7D4146CBF1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': '215D70C6CC83-4EE4-B55A-DE7D4146CBF1'
+        },
+        body: JSON.stringify(evolutionPayload)
+      });
+
+      if (response.ok) {
+        console.log('WhatsApp enviado com sucesso');
+        
+        // Registra o envio no Firestore para auditoria
+        await setDoc(doc(collection(db, 'whatsappLogs'), crypto.randomUUID()), {
+          userId: user.uid,
+          userEmail: user.email,
+          phone: formattedPhone,
+          messageType: 'email_verification',
+          sentAt: new Date().toISOString(),
+          status: 'sent'
+        });
+      } else {
+        const errorText = await response.text();
+        console.error('Erro ao enviar WhatsApp:', errorText);
+        
+        // Registra o erro no Firestore
+        await setDoc(doc(collection(db, 'whatsappLogs'), crypto.randomUUID()), {
+          userId: user.uid,
+          userEmail: user.email,
+          phone: formattedPhone,
+          messageType: 'email_verification',
+          sentAt: new Date().toISOString(),
+          status: 'failed',
+          error: errorText
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao enviar WhatsApp:', error);
+      
+      // Registra o erro no Firestore
+      await setDoc(doc(collection(db, 'whatsappLogs'), crypto.randomUUID()), {
+        userId: user.uid,
+        userEmail: user.email,
+        phone: formatPhoneForWhatsApp(formData.phone),
+        messageType: 'email_verification',
+        sentAt: new Date().toISOString(),
+        status: 'failed',
+        error: error instanceof Error ? error.message : 'Erro desconhecido'
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.terms) {
@@ -51,6 +165,11 @@ const Register = () => {
 
     if (!validateCRM(formData.crm)) {
       setError('CRM deve conter entre 4 e 6 dígitos.');
+      return;
+    }
+
+    if (!formData.phone.trim()) {
+      setError('Telefone/WhatsApp é obrigatório para receber o link de ativação.');
       return;
     }
     
@@ -119,7 +238,14 @@ const Register = () => {
         transactionId: crypto.randomUUID()
       });
 
+      // Enviar email de verificação sem actionCodeSettings para evitar erro de domínio
       await sendEmailVerification(user);
+
+      // Criar link de verificação manual para WhatsApp
+      const verificationLink = `${window.location.origin}/verify-email`;
+
+      // Enviar WhatsApp com o link de verificação
+      await sendWhatsAppVerification(user, verificationLink);
 
       navigate('/verify-email');
     } catch (error: any) {
@@ -224,7 +350,7 @@ const Register = () => {
               value={formData.phone}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              placeholder="Telefone"
+              placeholder="Telefone/WhatsApp (obrigatório para ativação)"
             />
             <input
               type="password"
