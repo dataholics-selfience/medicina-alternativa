@@ -102,7 +102,7 @@ const EmailVerification = () => {
         <div>
           <div className="flex items-center justify-center gap-3 mb-6">
             <Heart size={48} className="text-green-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Medicina Alternativa</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Medicina Integrativa</h1>
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Verifique seu email</h2>
           <p className="mt-2 text-gray-600">

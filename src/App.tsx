@@ -13,6 +13,7 @@ import Plans from './components/Plans';
 import UserManagement from './components/UserProfile/UserManagement';
 import TreatmentResult from './components/TreatmentResult';
 import LandingPage from './components/LandingPage';
+import Terms from './components/Terms';
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -60,6 +61,7 @@ function App() {
         <Route path="/forgot-password" element={!user ? <ForgotPassword /> : <Navigate to="/app" replace />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/account-deleted" element={<AccountDeleted />} />
+        <Route path="/terms" element={<Terms />} />
         
         {/* Protected Routes */}
         <Route path="/verify-email" element={<EmailVerification />} />

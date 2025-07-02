@@ -93,7 +93,7 @@ const TreatmentResult = () => {
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(255, 0, 0);
-      const disclaimerText = 'IMPORTANTE: Este documento contém sugestões de medicina alternativa e não substitui tratamento médico alopático. Consulte sempre um médico qualificado.';
+      const disclaimerText = 'IMPORTANTE: Este documento contém sugestões de medicina integrativa e não substitui tratamento médico alopático. Consulte sempre um médico qualificado.';
       const disclaimerLines = pdf.splitTextToSize(disclaimerText, pageWidth - 2 * margin);
       pdf.text(disclaimerLines, margin, yPosition);
       yPosition += disclaimerLines.length * 5 + 10;
@@ -387,7 +387,7 @@ const TreatmentResult = () => {
               <h3 className="font-bold text-red-800">IMPORTANTE</h3>
             </div>
             <p className="text-red-700 text-sm text-center">
-              Este documento contém <strong>sugestões de medicina alternativa</strong> e não substitui tratamento médico alopático. 
+              Este documento contém <strong>sugestões de medicina integrativa</strong> e não substitui tratamento médico alopático. 
               Consulte sempre um médico qualificado para diagnóstico e tratamento adequados.
             </p>
           </div>

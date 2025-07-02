@@ -66,7 +66,7 @@ const MedicalConsultation = ({ onConsultation, tokenUsage }: MedicalConsultation
     <>
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Nova Consulta de Medicina Alternativa</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Nova Consulta de Medicina Integrativa</h2>
           <p className="text-gray-600">Descreva o caso do paciente para receber um plano de tratamento holístico personalizado</p>
         </div>
 

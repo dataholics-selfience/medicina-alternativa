@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -10,6 +10,11 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Scroll para o topo quando o componente for montado
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -113,7 +118,7 @@ const Login = () => {
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Heart size={48} className="text-green-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Medicina Alternativa</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Medicina Integrativa</h1>
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Faça seu login</h2>
           <p className="mt-2 text-gray-600">Acesse sua conta para consultar tratamentos</p>

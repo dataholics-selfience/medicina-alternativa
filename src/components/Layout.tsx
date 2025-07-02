@@ -191,7 +191,7 @@ const Layout = () => {
             </button>
             <div className="flex items-center gap-3">
               <Heart size={32} className="text-green-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Medicina Alternativa</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Medicina Integrativa</h1>
             </div>
           </div>
           
@@ -226,7 +226,7 @@ const Layout = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Heart size={24} className="text-green-600" />
-                  <span className="font-bold text-gray-900">Medicina Alternativa</span>
+                  <span className="font-bold text-gray-900">Medicina Integrativa</span>
                 </div>
                 <button
                   onClick={() => setShowSidebar(false)}

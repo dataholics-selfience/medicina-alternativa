@@ -22,7 +22,7 @@ const Plans = () => {
       id: 'terapeuta-iniciante',
       name: 'Terapeuta Iniciante',
       icon: Heart,
-      description: 'Plano inicial para terapeutas que estão começando com medicina alternativa',
+      description: 'Plano inicial para terapeutas que estão começando com medicina integrativa',
       tokens: 100,
       price: 0,
       highlight: false,
@@ -32,7 +32,7 @@ const Plans = () => {
       id: 'terapeuta-holístico',
       name: 'Terapeuta Holístico',
       icon: Leaf,
-      description: 'Plano para terapeutas que trabalham com múltiplas modalidades de medicina alternativa',
+      description: 'Plano para terapeutas que trabalham com múltiplas modalidades de medicina integrativa',
       tokens: 1000,
       price: 5000,
       highlight: true,
@@ -42,7 +42,7 @@ const Plans = () => {
       id: 'mestre-curador',
       name: 'Mestre Curador',
       icon: Sparkles,
-      description: 'Plano para mestres em medicina alternativa e cura energética',
+      description: 'Plano para mestres em medicina integrativa e cura energética',
       tokens: 3000,
       price: 13000,
       highlight: false,
@@ -131,7 +131,7 @@ const Plans = () => {
           </button>
           <div className="text-center flex-1">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Escolha seu Plano</h1>
-            <p className="text-gray-600 text-lg">Desbloqueie o poder da medicina alternativa com nossos planos especializados</p>
+            <p className="text-gray-600 text-lg">Desbloqueie o poder da medicina integrativa com nossos planos especializados</p>
           </div>
           <div className="w-8" />
         </div>

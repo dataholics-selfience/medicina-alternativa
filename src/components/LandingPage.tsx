@@ -33,7 +33,7 @@ const LandingPage = () => {
     {
       icon: Brain,
       title: "Inteligência Artificial Especializada",
-      description: "Nossa IA foi treinada com conhecimentos milenares e práticas contemporâneas de medicina alternativa, oferecendo análises precisas e personalizadas."
+      description: "Nossa IA foi treinada com conhecimentos milenares e práticas contemporâneas de medicina integrativa, oferecendo análises precisas e personalizadas."
     },
     {
       icon: Leaf,
@@ -102,7 +102,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Heart size={32} className="text-green-600" />
-            <span className="text-2xl font-bold text-gray-900">Medicina Alternativa</span>
+            <span className="text-2xl font-bold text-gray-900">Medicina Integrativa</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <a href="#como-funciona" className="text-gray-600 hover:text-green-600 transition-colors">Como Funciona</a>
@@ -126,7 +126,7 @@ const LandingPage = () => {
               <div className="space-y-4">
                 <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   A Revolução da
-                  <span className="text-green-600 block">Medicina Alternativa</span>
+                  <span className="text-green-600 block">Medicina Integrativa</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Onde a sabedoria ancestral encontra a inteligência artificial. 
@@ -144,7 +144,7 @@ const LandingPage = () => {
                   <ArrowRight size={20} />
                 </Link>
                 <Link 
-                  to="/login" 
+                  to="/register" 
                   className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-50 transition-colors flex items-center justify-center gap-2"
                 >
                   <Play size={20} />
@@ -166,7 +166,7 @@ const LandingPage = () => {
               <div className="relative z-10">
                 <img 
                   src="https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=800" 
-                  alt="Medicina Alternativa - Tratamentos Holísticos"
+                  alt="Medicina Integrativa - Tratamentos Holísticos"
                   className="rounded-2xl shadow-2xl w-full"
                 />
               </div>
@@ -265,7 +265,7 @@ const LandingPage = () => {
             <div>
               <img 
                 src="https://img.freepik.com/fotos-gratis/praticas-de-bem-estar-para-o-autocuidado-no-dia-mundial-da-saude_23-2151256774.jpg?ga=GA1.1.451806447.1751485457&semt=ais_hybrid&w=740" 
-                alt="Tratamentos de Medicina Alternativa"
+                alt="Tratamentos de Medicina Integrativa"
                 className="rounded-2xl shadow-lg w-full"
               />
             </div>
@@ -391,7 +391,7 @@ const LandingPage = () => {
           </h2>
           <p className="text-xl text-green-100 mb-8 leading-relaxed">
             Junte-se a centenas de profissionais que já descobriram o poder da medicina 
-            alternativa integrada com inteligência artificial. Comece seu teste gratuito hoje.
+            integrativa integrada com inteligência artificial. Comece seu teste gratuito hoje.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -434,10 +434,10 @@ const LandingPage = () => {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <Heart size={32} className="text-green-400" />
-                <span className="text-xl font-bold">Medicina Alternativa</span>
+                <span className="text-xl font-bold">Medicina Integrativa</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Revolucionando a medicina alternativa através da integração entre 
+                Revolucionando a medicina integrativa através da integração entre 
                 sabedoria ancestral e inteligência artificial.
               </p>
             </div>
@@ -454,26 +454,26 @@ const LandingPage = () => {
             <div>
               <h3 className="font-bold mb-4">Modalidades</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Fitoterapia</li>
-                <li>Medicina Oriental</li>
-                <li>Homeopatia</li>
-                <li>Ayurveda</li>
+                <li><a href="#modalidades" className="hover:text-white transition-colors">Fitoterapia</a></li>
+                <li><a href="#modalidades" className="hover:text-white transition-colors">Medicina Oriental</a></li>
+                <li><a href="#modalidades" className="hover:text-white transition-colors">Homeopatia</a></li>
+                <li><a href="#modalidades" className="hover:text-white transition-colors">Ayurveda</a></li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-bold mb-4">Suporte</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Central de Ajuda</li>
-                <li>Contato</li>
-                <li>Termos de Uso</li>
-                <li>Privacidade</li>
+                <li><a href="https://wa.me/5511995736666" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Central de Ajuda</a></li>
+                <li><a href="https://wa.me/5511995736666" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
+                <li><Link to="/terms" className="hover:text-white transition-colors">Termos de Uso</Link></li>
+                <li><Link to="/terms" className="hover:text-white transition-colors">Privacidade</Link></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Medicina Alternativa. Todos os direitos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} Medicina Integrativa. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

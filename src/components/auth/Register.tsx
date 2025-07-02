@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
@@ -19,6 +19,11 @@ const Register = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Scroll para o topo quando o componente for montado
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const checkDeletedUser = async (email: string) => {
     const q = query(
@@ -158,10 +163,10 @@ const Register = () => {
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Heart size={48} className="text-green-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Medicina Alternativa</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Medicina Integrativa</h1>
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Criar conta</h2>
-          <p className="mt-2 text-gray-600">Registre-se para acessar tratamentos alternativos</p>
+          <p className="mt-2 text-gray-600">Registre-se para acessar tratamentos integrativos</p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && <div className="text-red-600 text-center bg-red-50 p-3 rounded-md border border-red-200">{error}</div>}
@@ -241,7 +246,7 @@ const Register = () => {
                 required
               />
               <label className="ml-2 block text-sm text-gray-700">
-                Aceito os termos de uso e política de privacidade
+                Aceito os <Link to="/terms" target="_blank" className="text-green-600 hover:text-green-700 underline">termos de uso e política de privacidade</Link>
               </label>
             </div>
           </div>
