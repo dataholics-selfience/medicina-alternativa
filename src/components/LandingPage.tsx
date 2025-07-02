@@ -64,21 +64,15 @@ const LandingPage = () => {
 
   const testimonials = [
     {
-      name: "Dr. Marina Silva",
-      role: "Médica Integrativa - CRM 12345",
-      content: "A plataforma revolucionou minha prática clínica. A precisão das recomendações e a integração de diferentes modalidades terapêuticas me permite oferecer tratamentos verdadeiramente personalizados.",
+      name: "Dra. Renata Manoel Nogueira",
+      role: "Médica Especialista em Medicina Integrativa",
+      content: "A medicina do futuro vai precisar de outros conhecimentos, lampejos intuitivos e percepção extra sensorial",
       rating: 5
     },
     {
-      name: "Dr. Carlos Mendoza",
-      role: "Especialista em Medicina Tradicional Chinesa - CRM 67890",
-      content: "Impressionante como a IA consegue correlacionar sintomas com padrões energéticos da MTC. É como ter um mestre ancestral orientando cada diagnóstico.",
-      rating: 5
-    },
-    {
-      name: "Dra. Ana Beatriz",
-      role: "Homeopata e Antroposófica - CRM 54321",
-      content: "A metalinguística da plataforma é extraordinária. Cada sugestão vem acompanhada de fundamentação científica e tradicional, elevando o nível da medicina alternativa.",
+      name: "Dra. Renata Manoel Nogueira",
+      role: "Médica Especialista em Medicina Integrativa",
+      content: "Tecnologia é algo divino, que vai levar a medicina a dar um salto",
       rating: 5
     }
   ];
@@ -270,7 +264,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <img 
-                src="https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                src="https://img.freepik.com/fotos-gratis/praticas-de-bem-estar-para-o-autocuidado-no-dia-mundial-da-saude_23-2151256774.jpg?ga=GA1.1.451806447.1751485457&semt=ais_hybrid&w=740" 
                 alt="Tratamentos de Medicina Alternativa"
                 className="rounded-2xl shadow-lg w-full"
               />
